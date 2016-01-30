@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +32,13 @@ import java.util.List;
 public class MainActivityFragment extends Fragment {
 
     private ArrayAdapter<String> defaultAdapter;
+    String[] posters;
+    // Just a temporary var - it will be set by user in future
+    public int countOfMovies = 6;
+
+
+    private GridAdapterView gridAdapter;
+
 
     public MainActivityFragment() {
     }
@@ -57,29 +68,62 @@ public class MainActivityFragment extends Fragment {
 
         List<String> placeholderData = new ArrayList<String>(Arrays.asList(data));
 
-        defaultAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                R.layout.basic_layout,
-                R.id.basic_view,
-                placeholderData
-                );
+       gridAdapter = new GridAdapterView(getActivity(), posters);
+//        defaultAdapter = new ArrayAdapter<String>(
+//                getActivity(),
+//                R.layout.basic_layout,
+//                R.id.basic_view,
+//                placeholderData
+//                );
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         GridView gridView = (GridView) rootView.findViewById(R.id.grid_view);
-        gridView.setAdapter(defaultAdapter);
+        gridView.setAdapter(gridAdapter);
         FetchMovieDatabase movieTask = new FetchMovieDatabase();
         movieTask.execute();
+//        gridView.setAdapter(gridAdapter);
+
+
         return rootView;
     }
 
-    public class FetchMovieDatabase extends AsyncTask<Void, Void, Void> {
+    public class FetchMovieDatabase extends AsyncTask<Void, Void, String> {
 
         private final String LOG_TAG =  FetchMovieDatabase.class.getSimpleName();
 
 
+        private String[] getPostersFromJson(int countOfMovies, String moviesJsonStr)
+            throws JSONException {
+
+            String[] posterArray = new String[countOfMovies];
+
+            // These are the names of the JSON objects that need to be extracted.
+            final String POSTER = "poster_path";
+            final String RESULTS = "results";
+
+            JSONObject movieJson = new JSONObject(moviesJsonStr);
+            JSONArray movieArray = movieJson.getJSONArray(RESULTS);
+
+            for (int i = 0; i < countOfMovies; i++ )
+            {
+                /// Data which we want to get.
+                String poster;
+
+                /// Get the JSON object representing the movie
+                JSONObject theMovie = movieArray.getJSONObject(i);
+
+                poster = theMovie.getString(POSTER);
+                /// Check if poster string get correct data
+                Log.d(LOG_TAG,poster);
+                posterArray[i] = "http://image.tmdb.org/t/p/w185/" + poster;
+            }
+
+            return posterArray;
+        }
+
         @Override
-        protected Void doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -89,7 +133,7 @@ public class MainActivityFragment extends Fragment {
             String moviesJsonStr = null;
 
             try {
-            String baseUrl = "https://api.themoviedb.org/3/movie/550?api_key=";
+            String baseUrl = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
             String api = "433e57f96e89ea06704dd7bca2f88048";
             URL url = new URL(baseUrl.concat(api));
 
@@ -127,6 +171,11 @@ public class MainActivityFragment extends Fragment {
                 return null;
             } finally {
                 Log.d(LOG_TAG,"output" + moviesJsonStr);
+                try {
+                  posters = getPostersFromJson(countOfMovies,moviesJsonStr);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 if (urlConnection != null) {
                     urlConnection.disconnect();
                 }
@@ -139,6 +188,12 @@ public class MainActivityFragment extends Fragment {
                 }
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String posterArray)
+        {
+
         }
 
     }
