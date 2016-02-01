@@ -56,7 +56,7 @@ public class GridAdapterView extends BaseAdapter{
         }
 
 
-        //Uso de la librería Picasso
+        //Context pro instanci knihovny - možná tam pasuje MainActivityFragment.this
         Picasso.with(context)
                 //Cargamos la imagen sobre la que se esté iterando
                 .load(items[position])
