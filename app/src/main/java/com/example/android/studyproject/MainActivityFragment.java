@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +47,7 @@ public class MainActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // Add this line in order for this fragment to handle menu events.
         setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -68,20 +68,22 @@ public class MainActivityFragment extends Fragment {
 
         List<String> placeholderData = new ArrayList<String>(Arrays.asList(data));
 
-       gridAdapter = new GridAdapterView(getActivity(), posters);
-//        defaultAdapter = new ArrayAdapter<String>(
-//                getActivity(),
-//                R.layout.basic_layout,
-//                R.id.basic_view,
-//                placeholderData
-//                );
 
+        defaultAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                R.layout.basic_layout,
+                R.id.basic_view,
+                placeholderData
+                );
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+//        GridView gridView = (GridView) rootView.findViewById(R.id.grid_view);
 
-        GridView gridView = (GridView) rootView.findViewById(R.id.grid_view);
-        gridView.setAdapter(gridAdapter);
-        FetchMovieDatabase movieTask = new FetchMovieDatabase();
-        movieTask.execute();
+        //gridAdapter = new GridAdapterView(getContext(), posters);
+//        gridView.setAdapter(gridAdapter);
+
+
+//        FetchMovieDatabase movieTask = new FetchMovieDatabase();
+//        movieTask.execute();
 //        gridView.setAdapter(gridAdapter);
 
 
