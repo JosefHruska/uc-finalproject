@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,13 +32,10 @@ import java.util.List;
 public class MainActivityFragment extends Fragment {
 
     private ArrayAdapter<String> defaultAdapter;
+
     String[] posters;
     // Just a temporary var - it will be set by user in future
     public int countOfMovies = 6;
-
-
-    private GridAdapterView gridAdapter;
-
 
     public MainActivityFragment() {
     }
@@ -47,7 +45,6 @@ public class MainActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // Add this line in order for this fragment to handle menu events.
         setHasOptionsMenu(true);
-
     }
 
     @Override
@@ -68,35 +65,28 @@ public class MainActivityFragment extends Fragment {
 
         List<String> placeholderData = new ArrayList<String>(Arrays.asList(data));
 
-
         defaultAdapter = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.basic_layout,
                 R.id.basic_view,
                 placeholderData
                 );
+
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-//        GridView gridView = (GridView) rootView.findViewById(R.id.grid_view);
 
-        //gridAdapter = new GridAdapterView(getContext(), posters);
-//        gridView.setAdapter(gridAdapter);
-
-
-//        FetchMovieDatabase movieTask = new FetchMovieDatabase();
-//        movieTask.execute();
-//        gridView.setAdapter(gridAdapter);
-
-
+        GridView gridView = (GridView) rootView.findViewById(R.id.grid_view);
+        gridView.setAdapter(defaultAdapter);
+        FetchMovieDatabase movieTask = new FetchMovieDatabase();
+        movieTask.execute();
         return rootView;
     }
-
     public class FetchMovieDatabase extends AsyncTask<Void, Void, String> {
 
         private final String LOG_TAG =  FetchMovieDatabase.class.getSimpleName();
 
 
         private String[] getPostersFromJson(int countOfMovies, String moviesJsonStr)
-            throws JSONException {
+                throws JSONException {
 
             String[] posterArray = new String[countOfMovies];
 
@@ -135,16 +125,16 @@ public class MainActivityFragment extends Fragment {
             String moviesJsonStr = null;
 
             try {
-            String baseUrl = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
-            String api = "433e57f96e89ea06704dd7bca2f88048";
-            URL url = new URL(baseUrl.concat(api));
+                String baseUrl = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
+                String api = "433e57f96e89ea06704dd7bca2f88048";
+                URL url = new URL(baseUrl.concat(api));
 
-            // Create the request to OpenWeatherMap, and open the connection
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
+                // Create the request to OpenWeatherMap, and open the connection
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
 
-            // Read the input stream into a String
+                // Read the input stream into a String
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
@@ -174,7 +164,7 @@ public class MainActivityFragment extends Fragment {
             } finally {
                 Log.d(LOG_TAG,"output" + moviesJsonStr);
                 try {
-                  posters = getPostersFromJson(countOfMovies,moviesJsonStr);
+                    posters = getPostersFromJson(countOfMovies,moviesJsonStr);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
