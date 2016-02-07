@@ -89,10 +89,16 @@ public class MainActivityFragment extends Fragment {
                 throws JSONException {
 
             String[] posterArray = new String[countOfMovies];
+            String[][] movieDataArray = new String[countOfMovies][6];
 
             // These are the names of the JSON objects that need to be extracted.
             final String POSTER = "poster_path";
             final String RESULTS = "results";
+            final String RELEASE = "release_date";
+            final String TITLE = "title";
+            final String PLOT = "overview";
+            final String RATING = "vote_average";
+            final String POSTER_SCND = "backdrop_path";
 
             JSONObject movieJson = new JSONObject(moviesJsonStr);
             JSONArray movieArray = movieJson.getJSONArray(RESULTS);
@@ -100,15 +106,32 @@ public class MainActivityFragment extends Fragment {
             for (int i = 0; i < countOfMovies; i++ )
             {
                 /// Data which we want to get.
-                String poster;
+                String poster; // Movie poster
+                String release; // Date of release
+                String title; // The full title of movie
+                String plot; // A plot summary
+                String rating; // An average user rating
+                String poster_scnd;
 
                 /// Get the JSON object representing the movie
                 JSONObject theMovie = movieArray.getJSONObject(i);
 
+                //Saves every single information to string;
                 poster = theMovie.getString(POSTER);
+                release = theMovie.getString(RELEASE);
+                title = theMovie.getString(TITLE);
+                plot = theMovie.getString(PLOT);
+                rating = theMovie.getString(RATING);
+                poster_scnd = theMovie.getString(POSTER_SCND);
+
                 /// Check if poster string get correct data
                 Log.d(LOG_TAG,poster);
                 posterArray[i] = "http://image.tmdb.org/t/p/w185/" + poster;
+                movieDataArray[i][0] = release;
+                movieDataArray[i][1] = title;
+                movieDataArray[i][2] = plot;
+                movieDataArray[i][3] = rating;
+                movieDataArray[i][4] = poster_scnd;
             }
 
             return posterArray;
