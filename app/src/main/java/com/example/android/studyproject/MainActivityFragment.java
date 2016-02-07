@@ -9,8 +9,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,9 +35,18 @@ public class MainActivityFragment extends Fragment {
 
     private ArrayAdapter<String> defaultAdapter;
 
+    CharSequence text = "hoj";
+    int duration = Toast.LENGTH_SHORT;
+    static String[][] filmy;
+
+
     String[] posters;
     // Just a temporary var - it will be set by user in future
     public int countOfMovies = 6;
+
+    public static void setFilmy(String[][] filmy) {
+        MainActivityFragment.filmy = filmy;
+    }
 
     public MainActivityFragment() {
     }
@@ -76,8 +87,18 @@ public class MainActivityFragment extends Fragment {
 
         GridView gridView = (GridView) rootView.findViewById(R.id.grid_view);
         gridView.setAdapter(defaultAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String movie = defaultAdapter.getItem(position);
+
+                Toast toast = Toast.makeText(getActivity(), filmy[position][0], duration);
+                toast.show();
+            }
+        });
         FetchMovieDatabase movieTask = new FetchMovieDatabase();
         movieTask.execute();
+
         return rootView;
     }
     public class FetchMovieDatabase extends AsyncTask<Void, Void, String> {
@@ -125,17 +146,24 @@ public class MainActivityFragment extends Fragment {
                 poster_scnd = theMovie.getString(POSTER_SCND);
 
                 /// Check if poster string get correct data
-                Log.d(LOG_TAG,poster);
+                Log.d(LOG_TAG,rating);
                 posterArray[i] = "http://image.tmdb.org/t/p/w185/" + poster;
                 movieDataArray[i][0] = release;
                 movieDataArray[i][1] = title;
                 movieDataArray[i][2] = plot;
                 movieDataArray[i][3] = rating;
                 movieDataArray[i][4] = poster_scnd;
+
             }
+            setFilmy(movieDataArray);
+
+
 
             return posterArray;
+
+
         }
+
 
         @Override
         protected String doInBackground(Void... params) {
