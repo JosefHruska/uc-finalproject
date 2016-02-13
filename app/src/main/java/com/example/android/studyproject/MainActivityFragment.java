@@ -1,5 +1,6 @@
 package com.example.android.studyproject;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -92,6 +93,13 @@ public class MainActivityFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String movie = defaultAdapter.getItem(position);
 
+                Bundle bundle = new Bundle();
+                bundle.putStringArray("key", new String[]{filmy[position][0],filmy[position][1],filmy[position][2]});
+
+                Intent intent = new Intent(getActivity(), movieDetailActivity.class);
+                //intent.putExtra(Intent.EXTRA_TEXT, filmy[position]);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 Toast toast = Toast.makeText(getActivity(), filmy[position][0], duration);
                 toast.show();
             }

@@ -1,9 +1,11 @@
 package com.example.android.studyproject;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class movieDetailActivity extends AppCompatActivity {
 
@@ -11,6 +13,31 @@ public class movieDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
+
+        //Intent intent = getIntent();
+        Bundle bundle = this.getIntent().getExtras();
+        String[] array = bundle.getStringArray("key");
+
+        String datum = array[0];
+        String datum = array[1;
+        String datum = array[2];
+        String datum = array[3];
+
+
+        //String message = intent.getStringExtra(intent.EXTRA_TEXT);
+        TextView viewMovieTitle = (TextView) findViewById(R.id.movie_title);
+        TextView viewMovieRating = (TextView) findViewById(R.id.movie_rating);
+        TextView viewMoviePlot = (TextView) findViewById(R.id.movie_plot);
+        TextView viewMovieRelease = (TextView) findViewById(R.id.movie_release);
+
+
+        viewMovieTitle.setText(datum);
+        viewMovieRating.setText(datum)
+                    viewMoviePlot.setText(datum)
+        viewMovieRelease.setText(datum)
+
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.detail_layout);
+        layout.addView(textView);
     }
 
     @Override
