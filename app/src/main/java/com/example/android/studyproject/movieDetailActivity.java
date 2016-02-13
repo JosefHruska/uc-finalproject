@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class movieDetailActivity extends AppCompatActivity {
 
@@ -18,10 +20,13 @@ public class movieDetailActivity extends AppCompatActivity {
         Bundle bundle = this.getIntent().getExtras();
         String[] array = bundle.getStringArray("key");
 
-        String datum = array[0];
-        String datum = array[1;
-        String datum = array[2];
-        String datum = array[3];
+        String release = array[0];
+        String title = array[1];
+        String plot = array[2];
+        String rating = array[3];
+        String poster_scnd = array[4];
+
+
 
 
         //String message = intent.getStringExtra(intent.EXTRA_TEXT);
@@ -29,15 +34,17 @@ public class movieDetailActivity extends AppCompatActivity {
         TextView viewMovieRating = (TextView) findViewById(R.id.movie_rating);
         TextView viewMoviePlot = (TextView) findViewById(R.id.movie_plot);
         TextView viewMovieRelease = (TextView) findViewById(R.id.movie_release);
+        ImageView viewMoviePosterScnd = (ImageView) findViewById(R.id.movie_poster_scnd);
 
+        Picasso.with(this).load(poster_scnd).into(viewMoviePosterScnd);
 
-        viewMovieTitle.setText(datum);
-        viewMovieRating.setText(datum)
-                    viewMoviePlot.setText(datum)
-        viewMovieRelease.setText(datum)
+        viewMovieTitle.setText(title);
+        viewMovieRating.setText(rating);
+        viewMoviePlot.setText(plot);
+        viewMovieRelease.setText(release);
 
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.detail_layout);
-        layout.addView(textView);
+//        RelativeLayout layout = (RelativeLayout) findViewById(R.id.detail_layout);
+//        layout.addView(textView);
     }
 
     @Override

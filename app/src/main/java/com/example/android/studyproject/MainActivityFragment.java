@@ -94,7 +94,7 @@ public class MainActivityFragment extends Fragment {
                 String movie = defaultAdapter.getItem(position);
 
                 Bundle bundle = new Bundle();
-                bundle.putStringArray("key", new String[]{filmy[position][0],filmy[position][1],filmy[position][2]});
+                bundle.putStringArray("key", new String[]{filmy[position][0],filmy[position][1],filmy[position][2],filmy[position][3],filmy[position][4]});
 
                 Intent intent = new Intent(getActivity(), movieDetailActivity.class);
                 //intent.putExtra(Intent.EXTRA_TEXT, filmy[position]);
@@ -140,7 +140,7 @@ public class MainActivityFragment extends Fragment {
                 String title; // The full title of movie
                 String plot; // A plot summary
                 String rating; // An average user rating
-                String poster_scnd;
+                String poster_scnd; // URL of secondary poster
 
                 /// Get the JSON object representing the movie
                 JSONObject theMovie = movieArray.getJSONObject(i);
@@ -160,7 +160,7 @@ public class MainActivityFragment extends Fragment {
                 movieDataArray[i][1] = title;
                 movieDataArray[i][2] = plot;
                 movieDataArray[i][3] = rating;
-                movieDataArray[i][4] = poster_scnd;
+                movieDataArray[i][4] = "http://image.tmdb.org/t/p/w780/" + poster_scnd;
 
             }
             setFilmy(movieDataArray);
