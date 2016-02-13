@@ -1,72 +1,71 @@
 package com.example.android.studyproject;
 
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+
+
+        import android.content.Context;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+        import java.util.ArrayList;
+        import java.util.Collections;
+        import java.util.List;
 
-/**
- * Created by Pepa on 30.01.2016.
- */
-public class GridAdapterView extends BaseAdapter{
+        import static android.widget.ImageView.ScaleType.CENTER_CROP;
 
-    private Context context;
-    private String[] items;
+final class SampleGridViewAdapter extends BaseAdapter {
+    private final Context context;
+    //private final List<String> urls = new ArrayList<String>();
 
-    //Constructor de dos parámetros
-    public GridAdapterView(Context context, String[] posters){
-        super();
+    public SampleGridViewAdapter(Context context, String[] posters) {
         this.context = context;
-        this.items = posters;
+//        this.posters = posters;
+
+//        // Ensure we get a different ordering of images on each run.
+//        Collections.addAll(urls, Data.URLS);
+//        Collections.shuffle(urls);
+
+//        // Triple up the list.
+//        ArrayList<String> copy = new ArrayList<String>(urls);
+//        urls.addAll(copy);
+//        urls.addAll(copy);
     }
 
-    //Obetenemos la cantidad de imágenes
-    @Override
-    public int getCount() {
-        return items.length;
-    }
-
-    //Obtenemos el objeto a partir de su posición
-    @Override
-    public Object getItem(int position) {
-        return items[position];
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    //Generamos la vista
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        //Declaramos el ImageView
-        ImageView img = null;
-        if (convertView == null) {
-            //Referenciamos el ImageView
-            img = new ImageView(context);
-            //Referenciamos el ImageView al convertView
-            convertView = img;
-            img.setPadding(5, 5, 5, 5);
-        } else {
-            img = (ImageView) convertView;
+    @Override public View getView(int position, View convertView, ViewGroup parent) {
+        ImageView view = (ImageView) convertView;
+        if (view == null) {
+            view = new ImageView(context);
+            view.setScaleType(CENTER_CROP);
         }
 
+        // Get the image URL for the current position.
+        String url = getItem(position);
 
-        //Context pro instanci knihovny - možná tam pasuje MainActivityFragment.this
-        Picasso.with(context)
-                //Cargamos la imagen sobre la que se esté iterando
-                .load(items[position])
-                        //Imagen por defecto usada mientras se cargan las imágenes
-                //.placeholder(R.drawable.picture)
-                .resize(200, 300)
-                        //Se aplica sobre la imagen (ImageView - se hizo referencia a "convertView")
-                .into(img);
+        // Trigger the download of the URL asynchronously into the image view.
+        Picasso.with(context) //
+                .load(url) //
+//                .placeholder(R.drawable.placeholder) //
+//                .error(R.drawable.error) //
+                .fit() //
+                .tag(context) //
+                .into(view);
 
-        return convertView;
+        return view;
     }
 
+    @Override public int getCount() {
+        return posters.lenght();
+    }
+
+    @Override public String getItem(int position) {
+        return posters.get(position);
+    }
+
+    @Override public long getItemId(int position) {
+        return position;
+    }
 }
