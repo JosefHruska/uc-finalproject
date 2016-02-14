@@ -1,28 +1,29 @@
 package com.example.android.studyproject;
 
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
-
-
-        import android.content.Context;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
-        import java.util.ArrayList;
-        import java.util.Collections;
-        import java.util.List;
 
-        import static android.widget.ImageView.ScaleType.CENTER_CROP;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-final class SampleGridViewAdapter extends BaseAdapter {
-    private final Context context;
+import static android.widget.ImageView.ScaleType.CENTER_CROP;
+
+final class GridAdapterView extends BaseAdapter {
+    private  Context context;
+    List<String> urls;
+    String[] strg;
     //private final List<String> urls = new ArrayList<String>();
 
-    public SampleGridViewAdapter(Context context, String[] posters) {
+    public GridAdapterView(Context context, String[] str) {
         this.context = context;
+        strg = str;
+       urls = new ArrayList<String>(Arrays.asList(str));
 //        this.posters = posters;
 
 //        // Ensure we get a different ordering of images on each run.
@@ -58,11 +59,11 @@ final class SampleGridViewAdapter extends BaseAdapter {
     }
 
     @Override public int getCount() {
-        return posters.lenght();
+        return urls.size();
     }
 
     @Override public String getItem(int position) {
-        return posters.get(position);
+        return urls.get(position);
     }
 
     @Override public long getItemId(int position) {

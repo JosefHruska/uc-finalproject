@@ -36,14 +36,14 @@ public class MainActivityFragment extends Fragment {
 
     private ArrayAdapter<String> defaultAdapter;
 
-    CharSequence text = "hoj";
+
     int duration = Toast.LENGTH_SHORT;
     static String[][] filmy;
 
 
-    String[] posters;
+    String[] posters = {"http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg"};
     // Just a temporary var - it will be set by user in future
-    public int countOfMovies = 6;
+    public int countOfMovies = 9;
 
     public static void setFilmy(String[][] filmy) {
         MainActivityFragment.filmy = filmy;
@@ -69,11 +69,8 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         String[] data = {
-                "Two", "Top", "Policemen", "Met", "On", "The", "Line",
-                "Two", "Top", "Policemen", "Met", "On", "The", "Line",
-                "Two", "Top", "Policemen", "Met", "On", "The", "Line",
-                "Two", "Top", "Policemen", "Met", "On", "The", "Line"
-        };
+                "Movie #1", "Movie #2", "Movie #3", "Movie #4", "Movie #5", "Movie #6",
+                "Movie #7", "Movie #8", "Movie #9", "Movie #10", "Movie #11"};
 
         List<String> placeholderData = new ArrayList<String>(Arrays.asList(data));
 
@@ -86,12 +83,23 @@ public class MainActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        GridView gridView = (GridView) rootView.findViewById(R.id.grid_view);
+
+        FetchMovieDatabase movieTask = new FetchMovieDatabase();
+        movieTask.execute();
+
+        return rootView;
+    }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        GridView gridView = (GridView) getActivity().findViewById(R.id.grid_view);
         gridView.setAdapter(defaultAdapter);
+        //gridView.setAdapter(new GridAdapterView(getContext(),posters));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String movie = defaultAdapter.getItem(position);
+                //String movie = defaultAdapter.getItem(position);
 
                 Bundle bundle = new Bundle();
                 bundle.putStringArray("key", new String[]{filmy[position][0],filmy[position][1],filmy[position][2],filmy[position][3],filmy[position][4]});
@@ -104,10 +112,6 @@ public class MainActivityFragment extends Fragment {
                 toast.show();
             }
         });
-        FetchMovieDatabase movieTask = new FetchMovieDatabase();
-        movieTask.execute();
-
-        return rootView;
     }
     public class FetchMovieDatabase extends AsyncTask<Void, Void, String> {
 
@@ -224,6 +228,7 @@ public class MainActivityFragment extends Fragment {
                 Log.d(LOG_TAG,"output" + moviesJsonStr);
                 try {
                     posters = getPostersFromJson(countOfMovies,moviesJsonStr);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
