@@ -41,12 +41,15 @@ public class MainActivityFragment extends Fragment {
     static String[][] filmy;
 
 
-    String[] posters = {"http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg"};
+    static String[] posters = {"http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg"};
     // Just a temporary var - it will be set by user in future
     public int countOfMovies = 9;
 
     public static void setFilmy(String[][] filmy) {
         MainActivityFragment.filmy = filmy;
+    }
+    public static void setPosters(String[] posters) {
+        MainActivityFragment.posters = posters;
     }
 
     public MainActivityFragment() {
@@ -95,7 +98,7 @@ public class MainActivityFragment extends Fragment {
 
         GridView gridView = (GridView) getActivity().findViewById(R.id.grid_view);
         gridView.setAdapter(defaultAdapter);
-        //gridView.setAdapter(new GridAdapterView(getContext(),posters));
+        //gridView.setAdapter(new GridViewAdapter(getContext(),posters));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -249,6 +252,7 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(String posterArray)
         {
+        MainActivityFragment.setPosters(posters);
 
         }
 

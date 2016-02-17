@@ -36,7 +36,7 @@ public class movieDetailActivity extends AppCompatActivity {
         TextView viewMovieRelease = (TextView) findViewById(R.id.movie_release);
         ImageView viewMoviePosterScnd = (ImageView) findViewById(R.id.movie_poster_scnd);
 
-        Picasso.with(this).load(poster_scnd).into(viewMoviePosterScnd);
+        Picasso.with(this).load(poster_scnd).fit().into(viewMoviePosterScnd);
 
         viewMovieTitle.setText(title);
         viewMovieRating.setText(rating);
