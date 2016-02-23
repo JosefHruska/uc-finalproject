@@ -1,6 +1,7 @@
 package com.example.android.studyproject;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -64,9 +66,29 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_fragment, menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(getActivity(), SettingsActivity.class));
+            return true;
+        }
+
+        if (id == R.id.action_refresh) {
+            FetchMovieDatabase movieTask = new FetchMovieDatabase();
+            movieTask.execute();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -191,8 +213,13 @@ public class MainActivityFragment extends Fragment {
             String moviesJsonStr = null;
 
             try {
+
+
                 String baseUrl = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
                 String api = "433e57f96e89ea06704dd7bca2f88048";
+                Uri buildUri = Uri.parse(baseUrl).buildUpon()
+                        .appendQueryParameter()
+
                 URL url = new URL(baseUrl.concat(api));
 
                 // Create the request to OpenWeatherMap, and open the connection
