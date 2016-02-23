@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Sortings">
+        <item>Popularity - ascending</item>
+        <item>Popularity - descending</item>
+        <item>Rating - ascending</item>
+        <item>Rating - descending</item>
+    </string-array>
+
+    <string-array name="SortingsVal">
+        <item>popularity.asc</item>
+        <item>popularity.desc</item>
+        <item>vote_average.asc</item>
+        <item>vote_average.desc</item>
+    </string-array>
+
+
+</resources>

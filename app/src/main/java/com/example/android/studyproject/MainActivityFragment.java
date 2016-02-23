@@ -1,9 +1,11 @@
 package com.example.android.studyproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,6 +60,12 @@ public class MainActivityFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        updateMovies();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Add this line in order for this fragment to handle menu events.
@@ -83,8 +91,7 @@ public class MainActivityFragment extends Fragment {
         }
 
         if (id == R.id.action_refresh) {
-            FetchMovieDatabase movieTask = new FetchMovieDatabase();
-            movieTask.execute();
+            updateMovies();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -109,8 +116,7 @@ public class MainActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
 
-        FetchMovieDatabase movieTask = new FetchMovieDatabase();
-        movieTask.execute();
+       updateMovies();
 
         return rootView;
     }
@@ -138,7 +144,17 @@ public class MainActivityFragment extends Fragment {
             }
         });
     }
-    public class FetchMovieDatabase extends AsyncTask<Void, Void, String> {
+
+    public void updateMovies()
+    {
+        FetchMovieDatabase movieTask = new FetchMovieDatabase();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String sorting = prefs.getString(getString(R.string.pref_sorting),
+                getString(R.string.pref_sorting_default));
+        movieTask.execute(sorting);
+    }
+
+    public class FetchMovieDatabase extends AsyncTask<String, Void, String> {
 
         private final String LOG_TAG =  FetchMovieDatabase.class.getSimpleName();
 
@@ -203,7 +219,7 @@ public class MainActivityFragment extends Fragment {
 
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected String doInBackground(String... params) {
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -212,15 +228,21 @@ public class MainActivityFragment extends Fragment {
             // Will contain the raw JSON response as a string.
             String moviesJsonStr = null;
 
+            final String BASE_URL = "http://api.themoviedb.org/3/discover/movie?";
+            final String SORT = "sort_by";
+            final String API_KEY = "api_key";
+
             try {
 
 
-                String baseUrl = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
+                String baseUrl2 = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
                 String api = "433e57f96e89ea06704dd7bca2f88048";
-                Uri buildUri = Uri.parse(baseUrl).buildUpon()
-                        .appendQueryParameter()
+                Uri buildUri = Uri.parse(BASE_URL).buildUpon()
+                        .appendQueryParameter(SORT, params[0])
+                        .appendQueryParameter(API_KEY,api)
+                        .build();
 
-                URL url = new URL(baseUrl.concat(api));
+                URL url = new URL(buildUri.toString());
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();

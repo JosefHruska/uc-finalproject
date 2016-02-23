@@ -6,6 +6,8 @@
     <string name="pref_nickname_label">Your nickname</string>
     <string name="pref_nickname">nickname</string>
     <string name="pref_nickname_default">Fool</string>
+    <string name="pref_sorting">sorting</string>
+    <string name="pref_sorting_default">popularity.asc</string>
     <string name="action_refresh">Refresh</string>
     <string name="settings_activity_label">Settings</string>
 
