@@ -1,6 +1,29 @@
 <resources>
-    <string name="app_name">StudyProject</string>
+    <string name="app_name">Nachoos</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_movie_detail">movieDetailActivity</string>
+    <string name="activity_movie_detail">Movie details</string>
+
+
+    <!--Settings-->
+
+    <!--Buttons Settings-->
+    <string name="action_refresh">Refresh</string>
+    <string name="settings_activity_label">Settings</string>
+    <string name="action_share">Share</string>
+
+    <!--Nickname Settings-->
+    <string name="pref_nickname_label">Your nickname</string>
+    <string name="pref_nickname">nickname</string>
+    <string name="pref_nickname_default">Fool</string>
+
+
+    <!--Sort settings-->
+    <string name="pref_sorting">sorting</string>
+    <string name="pref_sorting_default">popularity.asc</string>
+
+    <!--Map Intent-->
+    <string name="action_cinema_map_show">Map of cinemas</string>
+
+
 </resources>

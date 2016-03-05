@@ -11,6 +11,6 @@
         android:text="@string/hello_world" android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:numColumns="1"/>
+        android:numColumns="2"/>
 
 </RelativeLayout>

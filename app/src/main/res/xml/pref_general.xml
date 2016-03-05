@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+          android:title="@string/pref_nickname_label"
+          android:key="@string/pref_nickname"
+          android:defaultValue="@string/pref_nickname_default"
+          android:inputType="text"
+            android:singleLine="true" />
+    <ListPreference     android:title="Sorting"
+        android:summary="Select how films should be sorted"
+        android:key="sorting"
+        android:defaultValue="@string/pref_sorting_default"
+        android:entries="@array/Sortings"
+        android:entryValues="@array/SortingsVal" />
+
+</PreferenceScreen>
