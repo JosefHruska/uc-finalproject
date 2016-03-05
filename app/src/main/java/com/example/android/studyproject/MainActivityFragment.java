@@ -213,7 +213,7 @@ public class MainActivityFragment extends Fragment {
                 poster_scnd = theMovie.getString(POSTER_SCND);
 
                 /// Check if poster string get correct data
-                Log.d(LOG_TAG,rating);
+                Log.d(LOG_TAG,"Rating = " + rating);
                 posterArray[i] = "http://image.tmdb.org/t/p/w185/" + poster;
                 movieDataArray[i][0] = release;
                 movieDataArray[i][1] = title;
