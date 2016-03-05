@@ -5,6 +5,8 @@
         <item>Popularity - descending</item>
         <item>Rating - ascending</item>
         <item>Rating - descending</item>
+        <item>Release - ascending</item>
+        <item>Release - descending</item>
     </string-array>
 
     <string-array name="SortingsVal">
@@ -12,6 +14,9 @@
         <item>popularity.desc</item>
         <item>vote_average.asc</item>
         <item>vote_average.desc</item>
+        <item>primary_release_date.asc</item>
+        <item>primary_release_date.desc</item>
+
     </string-array>
 
 

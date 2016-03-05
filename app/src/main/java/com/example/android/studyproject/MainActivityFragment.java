@@ -47,7 +47,7 @@ public class MainActivityFragment extends Fragment {
 
     static String[] posters = {"http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg","http://image.tmdb.org/t/p/w780///jjBgi2r5cRt36xF6iNUEhzscEcb.jpg"};
     // Just a temporary var - it will be set by user in future
-    public int countOfMovies = 9;
+    public int countOfMovies = 10;
 
     public static void setFilmy(String[][] filmy) {
         MainActivityFragment.filmy = filmy;
@@ -58,6 +58,8 @@ public class MainActivityFragment extends Fragment {
 
     public MainActivityFragment() {
     }
+
+
 
     @Override
     public void onStart() {
@@ -94,12 +96,24 @@ public class MainActivityFragment extends Fragment {
             updateMovies();
             return true;
         }
+
+        if (id == R.id.action_cinema_map) {
+            showMap();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showMap() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("geo:0,0?q=Cinestar"));
+        startActivity(intent);
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+    // Just a placeholder which is used to fill up list of movies.
         String[] data = {
                 "Movie #1", "Movie #2", "Movie #3", "Movie #4", "Movie #5", "Movie #6",
                 "Movie #7", "Movie #8", "Movie #9", "Movie #10", "Movie #11"};
@@ -125,8 +139,8 @@ public class MainActivityFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         GridView gridView = (GridView) getActivity().findViewById(R.id.grid_view);
-        gridView.setAdapter(defaultAdapter);
-        //gridView.setAdapter(new GridViewAdapter(getContext(),posters));
+       // gridView.setAdapter(defaultAdapter);
+        gridView.setAdapter(new GridViewAdapter(getContext(),posters));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -234,8 +248,10 @@ public class MainActivityFragment extends Fragment {
 
             try {
 
+                // Original url
+                // "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
 
-                String baseUrl2 = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
+                // API key - it should be stored somewhere else
                 String api = "433e57f96e89ea06704dd7bca2f88048";
                 Uri buildUri = Uri.parse(BASE_URL).buildUpon()
                         .appendQueryParameter(SORT, params[0])
@@ -302,8 +318,8 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(String posterArray)
         {
         MainActivityFragment.setPosters(posters);
-
-        }
+            GridView gv = (GridView) getActivity().findViewById(R.id.grid_view);
+            gv.setAdapter(new GridViewAdapter(getContext(),posters));        }
 
     }
 }
