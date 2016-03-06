@@ -187,6 +187,7 @@ public class MainActivityFragment extends Fragment {
             final String PLOT = "overview";
             final String RATING = "vote_average";
             final String POSTER_SCND = "backdrop_path";
+            final String ID = "id";
 
             JSONObject movieJson = new JSONObject(moviesJsonStr);
             JSONArray movieArray = movieJson.getJSONArray(RESULTS);
@@ -200,6 +201,7 @@ public class MainActivityFragment extends Fragment {
                 String plot; // A plot summary
                 String rating; // An average user rating
                 String poster_scnd; // URL of secondary poster
+                String id; // ID of the movie
 
                 /// Get the JSON object representing the movie
                 JSONObject theMovie = movieArray.getJSONObject(i);
@@ -211,6 +213,10 @@ public class MainActivityFragment extends Fragment {
                 plot = theMovie.getString(PLOT);
                 rating = theMovie.getString(RATING);
                 poster_scnd = theMovie.getString(POSTER_SCND);
+                id = String.valueOf(theMovie.getInt(ID));
+
+                FetchMovieTrailer fmt = new FetchMovieTrailer();
+                fmt.execute(id);
 
                 /// Check if poster string get correct data
                 Log.d(LOG_TAG,"Rating = " + rating);
@@ -220,6 +226,7 @@ public class MainActivityFragment extends Fragment {
                 movieDataArray[i][2] = plot;
                 movieDataArray[i][3] = rating;
                 movieDataArray[i][4] = "http://image.tmdb.org/t/p/w780/" + poster_scnd;
+                movieDataArray[i][5] =  id;
 
             }
             setFilmy(movieDataArray);
@@ -234,6 +241,7 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
+
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
