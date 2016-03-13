@@ -76,7 +76,7 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_fragment, menu);
+        //inflater.inflate(R.menu.menu_fragment, menu);
     }
 
     @Override
