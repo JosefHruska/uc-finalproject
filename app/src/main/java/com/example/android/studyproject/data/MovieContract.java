@@ -36,10 +36,10 @@ public class MovieContract {
         public static final String TABLE_NAME = "favourite";
 
        // MID = ID which is used on TMDB
-        public static final String COLUMN_MID = "favourite_id";
+        public static final String COLUMN_MID = "mid";
 
         //Favourite defines if the movie is point as a favourite by an user.
-        public static final String COLUMN_FAVOURITE = "favourite_favourite";
+        public static final String COLUMN_FAV = "fav";
 
         // Short description of the main plot of the movie.
         public static final String COLUMN_PLOT = "plot";

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.studyproject.data.MovieContract.SourceEntry;
+import com.example.android.studyproject.data.MovieContract.FavouriteEntry;
 import com.example.android.studyproject.data.MovieContract.MoviesEntry;
 
 /**
@@ -13,7 +13,7 @@ import com.example.android.studyproject.data.MovieContract.MoviesEntry;
 public class MovieDBHelper extends SQLiteOpenHelper {
 
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
     static final String DATABASE_NAME = "movie.db";
 
@@ -25,10 +25,10 @@ public class MovieDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         // Create a table to hold locations.  A location consists of the string supplied in the
         // location setting, the city name, and the latitude and longitude
-        final String SQL_CREATE_SOURCE_TABLE = "CREATE TABLE " + SourceEntry.TABLE_NAME + " (" +
-                SourceEntry._ID + " INTEGER PRIMARY KEY," +
-                SourceEntry.COLUMN_SOURCE_SETTING + " TEXT UNIQUE NOT NULL, " +
-                SourceEntry.COLUMN_SOURCE_NAME + " TEXT NOT NULL " +
+        final String SQL_CREATE_FAVOURITE_TABLE = "CREATE TABLE " + FavouriteEntry.TABLE_NAME + " (" +
+                FavouriteEntry._ID + " INTEGER PRIMARY KEY," +
+                FavouriteEntry.COLUMN_SOURCE_SETTING + " TEXT UNIQUE NOT NULL, " +
+                FavouriteEntry.COLUMN_SOURCE_NAME + " TEXT NOT NULL " +
                 //SourceEntry.COLUMN_COORD_LAT + " REAL NOT NULL, " +
                 //SourceEntry.COLUMN_COORD_LONG + " REAL NOT NULL " +
                 " );";
@@ -58,7 +58,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
 
                 // Set up the location column as a foreign key to location table.
                 " FOREIGN KEY (" + MoviesEntry.COLUMN_SOURCE_KEY + ") REFERENCES " +
-                SourceEntry.TABLE_NAME + " (" + SourceEntry._ID + ") ";
+                FavouriteEntry.TABLE_NAME + " (" + FavouriteEntry._ID + ") ";
 
 //                // To assure the application have just one weather entry per day
 //                // per location, it's created a UNIQUE constraint with REPLACE strategy
