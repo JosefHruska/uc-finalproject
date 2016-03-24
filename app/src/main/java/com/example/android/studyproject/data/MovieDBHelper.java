@@ -1,9 +1,5 @@
 package com.example.android.studyproject.data;
 
-/**
- * Created by Pepa on 13.03.2016.
- */
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -36,7 +32,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
                 //SourceEntry.COLUMN_COORD_LAT + " REAL NOT NULL, " +
                 //SourceEntry.COLUMN_COORD_LONG + " REAL NOT NULL " +
                 " );";
-
+            //TODO Vrátit zpět kousek kodu
         final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE " + MoviesEntry.TABLE_NAME + " (" +
                 // Why AutoIncrement here, and not above?
                 // Unique keys will be auto-generated in either case.  But for weather

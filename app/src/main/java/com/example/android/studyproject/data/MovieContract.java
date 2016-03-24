@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.text.format.Time;
 
 /**
  * Created by Pepa on 13.03.2016.
@@ -16,44 +15,54 @@ public class MovieContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
 
-    public static final String PATH_MOVIES = "weather";
-    public static final String PATH_SOURCE = "source";
+    public static final String PATH_MOVIES = "movies";
+    public static final String PATH_FAVOURITE = "favourite";
 
 
-    public static long normalizeDate(long startDate) {
-        // normalize the start date to the beginning of the (UTC) day
-        Time time = new Time();
-        time.set(startDate);
-        int julianDay = Time.getJulianDay(startDate, time.gmtoff);
-        return time.setJulianDay(julianDay);
-    }
 
 
-    public static final class SourceEntry implements BaseColumns {
+
+    public static final class FavouriteEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_SOURCE).build();
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_FAVOURITE).build();
 
         public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_SOURCE;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_FAVOURITE;
         public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_SOURCE;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_FAVOURITE;
 
         // Table name
-        public static final String TABLE_NAME = "source";
+        public static final String TABLE_NAME = "favourite";
 
-        // The location setting string is what will be sent to openweathermap
-        // as the location query.
-        public static final String COLUMN_SOURCE_SETTING = "source_setting";
+       // MID = ID which is used on TMDB
+        public static final String COLUMN_MID = "favourite_id";
 
-        // Human readable location string, provided by the API.  Because for styling,
-        // "Mountain View" is more recognizable than 94043.
-        public static final String COLUMN_SOURCE_NAME = "source_name";
+        //Favourite defines if the movie is point as a favourite by an user.
+        public static final String COLUMN_FAVOURITE = "favourite_favourite";
 
-        // In order to uniquely pinpoint the location on the map when we launch the
-        // map intent, we store the latitude and longitude as returned by openweathermap.
-        //  public static final String COLUMN_COORD_LAT = "coord_lat";
-        // public static final String COLUMN_COORD_LONG = "coord_long";
+        // Short description of the main plot of the movie.
+        public static final String COLUMN_PLOT = "plot";
+
+        // Average rating of the movie from TMDB
+        public static final String COLUMN_RATING = "rating";
+
+
+        // Poster which will be showed in a main activity
+        public static final String COLUMN_IMG_MENU = "img_menu";
+
+        // Poster which will be showed in a detail activity
+        public static final String COLUMN_IMG_DETAIL = "img_detail";
+
+
+        // String which is equal to date of release in US.
+        public static final String COLUMN_RELEASE = "release";
+
+        // URL of video (trailer, spot) connected to this movie
+        public static final String COLUMN_VIDEO = "video";
+
+        // Name of movie
+        public static final String COLUMN_TITLE = "title";
 
         public static Uri buildSourceUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -71,33 +80,30 @@ public class MovieContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIES;
 
+        //Table name
         public static final String TABLE_NAME = "movies";
 
-        // Column with the foreign key into the location table.
-        public static final String COLUMN_SOURCE_KEY = "source_id";
-        // Date, stored as long in milliseconds since the epoch
-        // public static final String COLUMN_DATE = "date";
+        //TODO Later we will probably need to add foreign key.
 
 
-        // Weather id as returned by API, to identify the icon to be used
-        public static final String COLUMN_MOVIE_ID = "movie_id";
 
-        // Short description and long description of the weather, as provided by API.
-        // e.g "clear" vs "sky is clear".
+
+        // MID = ID which is used on TMDB
+        public static final String COLUMN_MID = "movie_id";
+
+        // Short description of the main plot of the movie.
         public static final String COLUMN_PLOT = "plot";
 
-        // Min and max temperatures for the day (stored as floats)
+        // Average rating of the movie from TMDB
         public static final String COLUMN_RATING = "rating";
 
 
-        // Humidity is stored as a float representing percentage
+        // Poster which will be showed in a main activity
         public static final String COLUMN_IMG_MENU = "img_menu";
 
-        // Humidity is stored as a float representing percentage
+        // Poster which will be showed in a detail activity
         public static final String COLUMN_IMG_DETAIL = "img_detail";
 
-        // It is 1 if it was marked as favourite, otherwise it's equal to 0
-        public static final String COLUMN_FAVOURITE = "favourite";
 
         // String which is equal to date of release in US.
         public static final String COLUMN_RELEASE = "release";
